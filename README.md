@@ -20,9 +20,9 @@
         return 1;
     ```
     This will allow probabilistic output for Linear SVM model.
-    1. Specify MATLABDIR in matlab/Makefile, then "make" to compile .mex files. They will be used during training and testing.
+    1. Specify MATLABDIR in `matlab/Makefile`, then `make` to compile `.mex` files. They will be used during training and testing.
 
-- Convert DTFV ASCII files into .mat binary files
+- Convert DTFV ASCII files into `.mat` binary files
     1. Prepare the feature list of DTFVs in the following format:
     ```
     [number of features listed]
@@ -30,7 +30,7 @@
     ...
     [groundtruth label] [truncated path to the features]
     ```
-    If you have DTFV features for HVC123456.mp4 stored in /temp/HVC123456.mp4.hog.fv.txt, /temp/HVC123456.mp4.hof.fv.txt, etc. The truncated path is just /temp/HVC123456.mp4 (i.e. excluding mode type and fv.txt)
+    If you have DTFV features for `HVC123456.mp4` stored in `/temp/HVC123456.mp4.hog.fv.txt`, `/temp/HVC123456.mp4.hof.fv.txt`, etc. The truncated path is just `/temp/HVC123456.mp4` (i.e. excluding mode type and `fv.txt`)
     1. Call 
     ```MATLAB
     function convert_mat(featList, outputFile)
@@ -38,7 +38,7 @@
     featList is what you created in the previous step, outputFile is something like '/temp/train.mat'.
 
 - Training and testing with linear SVM
-    1. Prepare training and testing .mat binary files
+    1. Prepare training and testing `.mat` binary files
     1. Call
     ```MATLAB
     function svm_pipeline(trainMat, testMat, eventID, saveDir)
@@ -55,8 +55,8 @@
     in this function.
 
 - Understanding the output formats
-    1. After training, a model model.[eventID].[modeType].mat is stored in binary format
-    1. After testing, a result file result.[eventID] is stored in ASCII. The i-th line gives the event confidence value (from 0 to 1) of the i-th item in testing list.
+    1. After training, a model `model.[eventID].[modeType].mat` is stored in binary format
+    1. After testing, a result file `result.[eventID]` is stored in ASCII. The i-th line gives the event confidence value (from 0 to 1) of the i-th item in testing list.
 
 ## Contact
 chensun@usc.edu
