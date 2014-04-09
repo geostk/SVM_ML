@@ -19,7 +19,7 @@ function convert_mat(featList, outputFile)
             featName = char(strcat(path, '.', featTypes{i}, '.fv.txt'));
             if exist(featName, 'file')
                 feat = dlmread(featName);
-                if sum(isnan(feat)) < 1
+                if sum(isnan(feat)) < 1 & numel(feat) == size(feats{i}, 2)
                     feats{i}(n,:) = feat;
                 end
             end
