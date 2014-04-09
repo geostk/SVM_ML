@@ -55,7 +55,8 @@
     in this function.
 
 - Understanding the output formats
-    1. After training, a model 
+    1. After training, a model model.[eventID].[modeType].mat is stored in binary format
+    1. After testing, a result file result.[eventID] is stored in ASCII. The i-th line gives the event confidence value (from 0 to 1) of the i-th item in testing list.
 
 ## Contact
 chensun@usc.edu
