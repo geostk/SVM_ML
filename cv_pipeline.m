@@ -1,12 +1,18 @@
-function svm_pipeline(trainMat, eventID, saveDir, numFolds)
-    modelPath = [saveDir '/model.' num2str(eventID)];
+function cv_pipeline(trainMat, eventID, saveDir, numFolds)
     resultPath = [saveDir '/result.' num2str(eventID)];
+    allConfs = [];
     for i = 0:numFolds-1
+        modelPath = [saveDir '/model.' num2str(eventID) '.' num2str(i)];
         train_svm(trainMat, eventID, modelPath, i);
-        [confs, ap] = test_svm(testMat, eventID, modelPath, i);
-        save(resultPath, 'confs', '-ASCII');
+        [confs, ap] = test_svm(trainMat, eventID, modelPath, i);
+        if length(allConfs) < size(confs, 1)
+            allConfs = confs;
+        else
+            allConfs = allConfs + confs;
+        end
         fprintf('fold = %d, eventID = %d, AP = %f\n', i, eventID, ap);
     end
+    save(resultPath, 'allConfs', '-ASCII');
 end
 
 function train_svm(trainMat, eventID, modelDir, groupID)
@@ -29,8 +35,8 @@ function [confs, ap] = test_svm(testMat, eventID, modelDir, groupID)
     globals;
     load(testMat);
     labels = double(labels == eventID);
-    confs = zeros(size(labels, 1), length(featTypes));
     indice = (groups == groupID);
+    confs = zeros(size(labels, 1), length(featTypes));
     for i = 1:length(featTypes)
         modelPath = char(strcat(modelDir, '.', featTypes{i}, '.mat'));
         load(modelPath);
@@ -38,11 +44,11 @@ function [confs, ap] = test_svm(testMat, eventID, modelDir, groupID)
         testLabels = labels(indice, :);
         [predicted, acc, probs] = predict(testLabels, featMat, model, '-b 1 -q');
         if model.Label(1) > 0
-            confs(:, i) = probs(:, 1);
+            confs(indice, i) = probs(:, 1);
         else
-            confs(:, i) = probs(:, 2);
+            confs(indice, i) = probs(:, 2);
         end
     end
     confs = sum(confs, 2) / length(featTypes);
-    ap = computeAP(confs, labels);
+    ap = computeAP(confs(indice, :), labels(indice, :));
 end

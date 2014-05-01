@@ -1,4 +1,7 @@
-function convert_mat(featList, outputFile)
+function convert_mat(featList, outputFile, ext)
+	if nargin < 3
+		ext = 'fv';
+	end
     fin = fopen(featList, 'r');
     if fin < 0
         fprintf('Cannot open %s\n', featList);
@@ -16,12 +19,14 @@ function convert_mat(featList, outputFile)
         path = fscanf(fin, '%s', 1);
         labels(n) = label;
         for i = 1:length(featTypes)
-            featName = char(strcat(path, '.', featTypes{i}, '.fv.txt'));
-            if exist(featName, 'file')
+            featName = char(strcat(path, '.', featTypes{i}, '.', ext, '.txt'));
+			try
                 feat = dlmread(featName);
                 if sum(isnan(feat)) < 1 & numel(feat) == size(feats{i}, 2)
                     feats{i}(n,:) = feat;
                 end
+			catch err
+				% do nothing
             end
         end
         
