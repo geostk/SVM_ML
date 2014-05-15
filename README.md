@@ -1,4 +1,4 @@
-# SVM Pipeline in MATLAB
+#SVM Pipeline in MATLAB
 
 ## Dependencies
 - MATLAB (Tested in version 2013a)
@@ -59,7 +59,6 @@
     1. After testing, a result file `result.[eventID]` is stored in ASCII. The i-th line gives the event confidence value (from 0 to 1) of the i-th item in testing list.
 
 ## TODO
-1. Weird behavior under 10EX setting
 
 ## Contact
 chensun@usc.edu

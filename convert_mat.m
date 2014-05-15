@@ -22,7 +22,7 @@ function convert_mat(featList, outputFile, ext)
             featName = char(strcat(path, '.', featTypes{i}, '.', ext, '.txt'));
 			try
                 feat = dlmread(featName);
-                if sum(isnan(feat)) < 1 & numel(feat) == size(feats{i}, 2)
+                if sum(sum(isnan(feat))) < 1 && numel(feat) == size(feats{i}, 2)
                     feats{i}(n,:) = feat;
                 end
 			catch err
