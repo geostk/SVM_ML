@@ -58,6 +58,17 @@
     1. After training, a model `model.[eventID].[modeType].mat` is stored in binary format
     1. After testing, a result file `result.[eventID]` is stored in ASCII. The i-th line gives the event confidence value (from 0 to 1) of the i-th item in testing list.
 
+## Train action classifiers
+
+Finally, we want to learn linear action classifiers and apply them on ALADDIN video clips.  
+The process for training action classifiers is almost the same, we provide `action_mat_pipeline.m` as the entry point, it will generate a projection matrix in ASCII, each line contains a linear SVM model (DTFV dimension plus bias) for an action class.  
+
+Input parameters:
+- `trainMat`, path to the training `.mat` file, same format as above
+- `maxEventID`, here we assign a number to every action class, from 1 to `maxEventID`, e.g. for UCF 101, you need to convert the 101 string action class names to numbers from 1 to 101, then use the numbers as groundtruth label and set `maxEventID` as 101
+- `saveDir`, path to store the svm model matrix
+- `runID`, prefix to the svm model filename
+
 ## TODO
 
 ## Contact
